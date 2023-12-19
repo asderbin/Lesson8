@@ -1,0 +1,53 @@
+---
+- name: service-builder
+  hosts: builder
+  become: yes
+
+  tasks:
+  - name: install git
+    apt:
+      name: git
+      state: present
+  
+  - name: install maven
+    apt:
+      name: maven
+      state: present
+
+  - name: install java
+    apt:
+      name: default-jdk
+      state: present
+
+  - name: git checkout from Ansible Playbooks
+    git:
+      repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+      dest: /srv/checkout
+      version: latest
+
+  - name: build war-file
+    shell:
+      chdir: ./boxfuse-sample-java-war-hello
+      cmd: mvn package
+
+- name: service-prod
+  hosts: prod
+  become: yes
+
+  tasks:
+  - name: install java
+    apt:
+      name: default-jdk
+      state: present
+
+  - name: install tomcat
+    apt:
+      name: tomcat
+      state: present
+
+  - name: transfer file from builder to prod
+    synchronize:
+      src: ./target/hello-1.0.war
+      dest: /var/lib/tomcat9/webapps
+      mode: push
+    delegate_to: builder
