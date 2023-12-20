@@ -41,7 +41,7 @@
 
   - name: install tomcat
     apt:
-      name: tomcat
+      name: tomcat9
       state: present
 
   - name: transfer file from builder to prod
