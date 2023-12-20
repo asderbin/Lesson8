@@ -19,11 +19,10 @@
       name: default-jdk
       state: present
 
-  - name: git checkout from Ansible Playbooks
+  - name: git clone boxfuse
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
       dest: /srv/checkout
-      version: latest
 
   - name: build war-file
     shell:
