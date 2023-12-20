@@ -22,11 +22,11 @@
   - name: git clone boxfuse
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-      dest: /srv/checkout
+      dest: /srv/boxfuse-sample-java-war-hello
 
   - name: build war-file
     shell:
-      chdir: ./boxfuse-sample-java-war-hello
+      chdir: /srv/boxfuse-sample-java-war-hello
       cmd: mvn package
 
 - name: service-prod
